@@ -245,39 +245,42 @@ function getRectangleString(width, height) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(st) {
-  function encrypt(str, offset = 13) {
-    let out = '';
-    for (let i = 0; i < str.length; i += 1) {
-      const code = str.charCodeAt(i);
-      let codeNew = code + offset;
-      if (offset > 0) {
-        if (code >= 97) {
-          if (codeNew > 122) {
-            codeNew = 97 + codeNew - 123;
-          }
-        } else if (code >= 65) {
-          if (codeNew > 90) {
-            codeNew = 65 + codeNew - 91;
-          }
-        }
-      }
-      // else if (offset < 0) {
-      //   if (code <= 90) {
-      //     if (codeNew < 65) {
-      //       codeNew = 91 + codeNew - 65;
-      //     }
-      //   } else if (code <= 122) {
-      //     if (codeNew < 97) {
-      //       codeNew = 123 + codeNew - 97;
-      //     }
-      //   }
-      // }
-      out += String.fromCharCode(codeNew);
+function encodeToRot13(str) {
+  // function encrypt(str, offset = 13) {
+  //   let out = '';
+  //   for (let i = 0; i < str.length; i += 1) {
+  //     const code = str.charCodeAt(i);
+  //     let codeNew = code + offset;
+  //     if (offset > 0) {
+  //       if (code >= 97) {
+  //         if (codeNew >= 122) {
+  //           codeNew = 97 + codeNew - 123;
+  //         }
+  //       } else if (code >= 65) {
+  //         if (codeNew > 90) {
+  //           codeNew = 65 + codeNew - 91;
+  //         }
+  //       }
+  //     }
+  //     out += String.fromCharCode(codeNew);
+  //   }
+  //   return out;
+  // }
+  // return encrypt(st);
+  let out = '';
+  for (let i = 0; i < str.length; i += 1) {
+    const charCode = str[i].charCodeAt();
+    if ((charCode >= 65 && charCode <= 77) || (charCode >= 97 && charCode <= 109)) {
+      out += String.fromCharCode(charCode + 13);
+    } else if ((charCode >= 78 && charCode <= 90) || (charCode >= 110 && charCode <= 122)) {
+      out += String.fromCharCode(charCode - 13);
+    } else if (charCode === 32) {
+      out += ' ';
+    } else {
+      out += str[i];
     }
-    return out;
   }
-  return encrypt(st);
+  return out;
 }
 
 /**
